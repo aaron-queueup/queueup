@@ -1,0 +1,5 @@
+{
+  "/(dashboard)/user/[slug]/page": "app/(dashboard)/user/[slug]/page.js",
+  "/(dashboard)/my-tournaments/page": "app/(dashboard)/my-tournaments/page.js",
+  "/(dashboard)/tournament/[id]/page": "app/(dashboard)/tournament/[id]/page.js"
+}

@@ -1,8 +1,0 @@
-{
-  "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(dashboard)/tournament/[id]/page": "app/(dashboard)/tournament/[id]/page.js",
-  "/(dashboard)/teams/page": "app/(dashboard)/teams/page.js",
-  "/(dashboard)/user/[slug]/page": "app/(dashboard)/user/[slug]/page.js",
-  "/(dashboard)/my-tournaments/page": "app/(dashboard)/my-tournaments/page.js",
-  "/(dashboard)/team/[slug]/page": "app/(dashboard)/team/[slug]/page.js"
-}

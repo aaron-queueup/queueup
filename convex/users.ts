@@ -116,9 +116,9 @@ export const getMatchHistory = action({
     const apiKey = process.env.RIOT_API_KEY;
     if (!apiKey) return { error: "Riot API key not configured", matches: [], mastery: [] };
 
-    // Parse "Player#NA1" into gameName and tagLine
-    const parts = args.riotId.split("#");
-    if (parts.length !== 2) return { error: "Invalid Riot ID format", matches: [], mastery: [] };
+    // Parse "Player#NA1" into gameName and tagLine, trim whitespace
+    const parts = args.riotId.split("#").map((s) => s.trim());
+    if (parts.length !== 2 || !parts[0] || !parts[1]) return { error: "Invalid Riot ID format", matches: [], mastery: [] };
     const [gameName, tagLine] = parts;
 
     try {
@@ -133,20 +133,22 @@ export const getMatchHistory = action({
 
       // 2. Get recent match IDs (20 matches)
       const matchIdsRes = await fetch(
-        `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${account.puuid}/ids?start=0&count=20&api_key=${apiKey}`
+        `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${account.puuid}/ids?start=0&count=10&api_key=${apiKey}`
       );
       if (!matchIdsRes.ok) {
         return { error: "Could not fetch match list", matches: [], mastery: [] };
       }
       const matchIds: string[] = await matchIdsRes.json();
 
-      // 3. Get match details
-      const matches = await Promise.all(
-        matchIds.map(async (matchId) => {
+      // 3. Get match details sequentially to avoid rate limits
+      const matches = [];
+      for (const matchId of matchIds) {
+        try {
           const res = await fetch(
             `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`
           );
-          if (!res.ok) return null;
+          if (res.status === 429) break; // rate limited, stop fetching
+          if (!res.ok) { matches.push(null); continue; }
           const data = await res.json();
 
           const participant = data.info.participants.find(
@@ -218,9 +220,9 @@ export const getMatchHistory = action({
             cs: participant.totalMinionsKilled + participant.neutralMinionsKilled,
             players,
             viewerPuuid: account.puuid,
-          };
-        })
-      );
+          });
+        } catch { matches.push(null); }
+      }
 
       // 4. Get top champion mastery (NA1 regional endpoint)
       let mastery: any[] = [];

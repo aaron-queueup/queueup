@@ -11,15 +11,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/layout.js"
     ],
+    "/(dashboard)/my-tournaments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/my-tournaments/page.js"
+    ],
+    "/(dashboard)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/page.js"
+    ],
     "/(dashboard)/user/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/user/[slug]/page.js"
     ],
-    "/(dashboard)/my-tournaments/page": [
+    "/(dashboard)/teams/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/my-tournaments/page.js"
+      "static/chunks/app/(dashboard)/teams/page.js"
+    ],
+    "/(dashboard)/seed/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/seed/page.js"
+    ],
+    "/(dashboard)/team/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/team/[slug]/page.js"
     ],
     "/(dashboard)/tournament/[id]/page": [
       "static/chunks/webpack.js",

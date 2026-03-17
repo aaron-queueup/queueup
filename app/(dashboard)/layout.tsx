@@ -108,16 +108,16 @@ export default function DashboardLayout({
               <UserSearch />
             </div>
 
-            {/* Profile avatar dropdown */}
-            <div ref={menuRef} className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            {/* Profile avatar + dropdown */}
+            <div ref={menuRef} className="relative flex items-center gap-1">
+              <Link
+                href={`/user/${currentUser?.slug ?? ""}`}
+                className="hover:opacity-80 transition-opacity"
               >
                 {currentUser?.avatarUrl ? (
                   <img
                     src={currentUser.avatarUrl}
-                    alt={currentUser.username}
+                    alt={currentUser?.username}
                     className="w-8 h-8 rounded-full"
                   />
                 ) : (
@@ -127,6 +127,11 @@ export default function DashboardLayout({
                     </span>
                   </div>
                 )}
+              </Link>
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="p-1 hover:opacity-80 transition-opacity"
+              >
                 <ChevronDown size={12} className={`text-gray-400 transition-transform ${menuOpen ? "rotate-180" : ""}`} />
               </button>
 

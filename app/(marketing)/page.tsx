@@ -69,7 +69,7 @@ export default function LandingPage() {
       <section className="px-6 pt-20 pb-24">
         <div className="max-w-3xl mx-auto text-center">
           <h1
-            className="text-6xl sm:text-7xl tracking-wide mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]"
+            className="text-4xl sm:text-6xl md:text-7xl tracking-wide mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]"
             style={{ fontFamily: "var(--font-logo)" }}
           >
             QUEUE UP
@@ -173,15 +173,24 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="px-6 py-8 border-t border-white/5">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span
-            className="text-sm tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]"
-            style={{ fontFamily: "var(--font-logo)" }}
-          >
-            QUEUE UP
-          </span>
-          <p className="text-gray-600 text-xs">
-            © {new Date().getFullYear()} Queue Up. Play to win.
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <span
+              className="text-sm tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]"
+              style={{ fontFamily: "var(--font-logo)" }}
+            >
+              QUEUE UP
+            </span>
+            <p className="text-gray-600 text-xs">
+              © {new Date().getFullYear()} Queue Up. Play to win.
+            </p>
+          </div>
+          <p className="text-gray-600 text-[10px] leading-relaxed">
+            QueueUP isn't endorsed by Riot Games and doesn't reflect the views
+            or opinions of Riot Games or anyone officially involved in producing
+            or managing Riot Games properties. Riot Games, and all associated
+            properties are trademarks or registered trademarks of Riot Games,
+            Inc.
           </p>
         </div>
       </footer>

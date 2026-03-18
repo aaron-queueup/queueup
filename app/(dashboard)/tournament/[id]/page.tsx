@@ -301,7 +301,7 @@ export default function TournamentDetailPage() {
       </div>
 
       {/* Two-column layout: Bracket (main) + Sidebar */}
-      <div className="flex gap-6 items-start">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Main content */}
         <div className="flex-1 min-w-0">
           {/* Bracket */}

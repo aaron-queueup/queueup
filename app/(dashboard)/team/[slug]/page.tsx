@@ -175,7 +175,7 @@ export default function TeamDetailPage() {
       </div>
 
       {/* Two-column layout */}
-      <div className="flex gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
         {/* Left: Roster */}
         <div className="flex-1 min-w-0">
           {/* Invite (leader only) */}
@@ -362,7 +362,7 @@ export default function TeamDetailPage() {
         </div>
 
         {/* Right: Tournament History */}
-        <div className="w-80 shrink-0 hidden lg:block">
+        <div className="w-full lg:w-80 lg:shrink-0">
           <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">
             Tournament History
           </h2>

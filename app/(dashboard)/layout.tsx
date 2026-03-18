@@ -14,15 +14,18 @@ import {
   User,
   LogOut,
   ChevronDown,
+  Search,
+  Menu,
+  X,
 } from "lucide-react";
 import { ClientOnly } from "@/app/ClientOnly";
 import { UserSearch } from "@/app/UserSearch";
 import { useModal } from "@/app/ModalProvider";
 
 const tabs = [
-  { href: "/my-tournaments", label: "Dashboard" },
-  { href: "/tournaments", label: "Tournaments" },
-  { href: "/teams", label: "Teams" },
+  { href: "/my-tournaments", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/tournaments", label: "Tournaments", icon: Trophy },
+  { href: "/teams", label: "Teams", icon: Users },
 ];
 
 export default function DashboardLayout({
@@ -39,6 +42,7 @@ export default function DashboardLayout({
   const { confirm } = useModal();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,7 +51,6 @@ export default function DashboardLayout({
     }
   }, [isSignedIn]);
 
-  // Close menu on click outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -58,9 +61,9 @@ export default function DashboardLayout({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     setMenuOpen(false);
+    setMobileSearchOpen(false);
   }, [pathname]);
 
   const handleSignOut = async () => {
@@ -73,9 +76,9 @@ export default function DashboardLayout({
 
   return (
     <ClientOnly>
-      <div className="min-h-screen flex flex-col">
-        {/* Top nav */}
-        <nav className="bg-[#0f0f23] border-b border-[#1a1a3e] px-6 py-3">
+      <div className="min-h-screen flex flex-col pb-16 md:pb-0">
+        {/* Desktop top nav */}
+        <nav className="hidden md:block bg-[#0f0f23] border-b border-[#1a1a3e] px-6 py-3">
           <div className="max-w-6xl mx-auto flex items-center gap-4">
             <Link href="/my-tournaments" className="shrink-0 text-xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]" style={{ fontFamily: "var(--font-logo)" }}>
               QUEUE UP
@@ -134,15 +137,12 @@ export default function DashboardLayout({
 
               {menuOpen && (
                 <div className="absolute right-0 top-full mt-2 w-56 bg-[#1a1a3e] rounded-xl border border-white/5 shadow-2xl overflow-hidden z-50">
-                  {/* User info */}
                   <div className="px-4 py-3 border-b border-[#0f0f23]">
                     <p className="font-semibold text-sm">{currentUser?.username}</p>
                     {currentUser?.discordUsername && currentUser.discordUsername !== currentUser.username?.toLowerCase() && (
                       <p className="text-gray-500 text-xs">@{currentUser.discordUsername}</p>
                     )}
                   </div>
-
-                  {/* Links */}
                   <div className="py-1">
                     <Link
                       href={`/user/${currentUser?.slug ?? ""}`}
@@ -152,8 +152,6 @@ export default function DashboardLayout({
                       My Profile
                     </Link>
                   </div>
-
-                  {/* Danger zone */}
                   <div className="border-t border-[#0f0f23] py-1">
                     <button
                       onClick={handleSignOut}
@@ -169,8 +167,78 @@ export default function DashboardLayout({
           </div>
         </nav>
 
+        {/* Mobile top bar */}
+        <nav className="md:hidden bg-[#0f0f23] border-b border-[#1a1a3e] px-4 py-3">
+          <div className="flex items-center justify-between">
+            <Link href="/my-tournaments" className="text-lg tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#8b95f5]" style={{ fontFamily: "var(--font-logo)" }}>
+              QUEUE UP
+            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {mobileSearchOpen ? <X size={18} /> : <Search size={18} />}
+              </button>
+              <Link
+                href={`/user/${currentUser?.slug ?? ""}`}
+                className="hover:opacity-80 transition-opacity"
+              >
+                {currentUser?.avatarUrl ? (
+                  <img
+                    src={currentUser.avatarUrl}
+                    alt={currentUser?.username}
+                    className="w-7 h-7 rounded-full"
+                  />
+                ) : (
+                  <div className="w-7 h-7 rounded-full bg-[#5865F2] flex items-center justify-center">
+                    <span className="text-[10px] font-bold">
+                      {currentUser?.username?.charAt(0).toUpperCase() ?? "?"}
+                    </span>
+                  </div>
+                )}
+              </Link>
+            </div>
+          </div>
+          {mobileSearchOpen && (
+            <div className="mt-3">
+              <UserSearch />
+            </div>
+          )}
+        </nav>
+
         {/* Content */}
-        <main className="flex-1 max-w-6xl mx-auto w-full p-6">{children}</main>
+        <main className="flex-1 max-w-6xl mx-auto w-full p-4 md:p-6">{children}</main>
+
+        {/* Mobile bottom tabs */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0f0f23] border-t border-[#1a1a3e] px-2 py-2 z-40">
+          <div className="flex items-center justify-around">
+            {tabs.map((tab) => {
+              const isActive = pathname.startsWith(tab.href);
+              return (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={`flex flex-col items-center gap-1 px-3 py-1 rounded-lg transition-colors ${
+                    isActive ? "text-[#5865F2]" : "text-gray-500"
+                  }`}
+                >
+                  <tab.icon size={20} />
+                  <span className="text-[10px] font-medium">{tab.label}</span>
+                </Link>
+              );
+            })}
+            <Link
+              href={`/user/${currentUser?.slug ?? ""}`}
+              className={`flex flex-col items-center gap-1 px-3 py-1 rounded-lg transition-colors ${
+                pathname.startsWith("/user") || pathname.startsWith("/profile") ? "text-[#5865F2]" : "text-gray-500"
+              }`}
+            >
+              <User size={20} />
+              <span className="text-[10px] font-medium">Profile</span>
+            </Link>
+          </div>
+        </nav>
       </div>
     </ClientOnly>
   );

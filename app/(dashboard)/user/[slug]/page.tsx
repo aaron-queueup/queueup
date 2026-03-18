@@ -146,9 +146,9 @@ export default function UserProfilePage() {
 
   return (
     <div>
-      <div className="flex gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
         {/* Left: Profile info */}
-        <div className="w-80 shrink-0">
+        <div className="w-full lg:w-80 lg:shrink-0">
           {/* Card */}
           <div className="bg-[#1a1a3e] rounded-2xl p-6 mb-4">
             <div className="flex items-center gap-4 mb-4">
